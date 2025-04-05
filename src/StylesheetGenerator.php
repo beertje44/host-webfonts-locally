@@ -106,6 +106,9 @@ class StylesheetGenerator {
 
 		foreach ( $sources as $format => $url ) {
 			$source_url = $url . '?ver=' . $this->timestamp;
+			if ( defined( 'OMGF_RELATIVE_URLS' ) && OMGF_RELATIVE_URLS === true ) {
+				$source_url = preg_replace( '%^(http:|https:)?//((?!-))[a-z0-9][a-z0-9-_]{0,61}[a-z0-9]{0,1}\.([a-z0-9\-]{1,61}|[a-z0-9-]{1,30}\.[a-z]{2,})%i', '', $source_url );
+			}
 			$source     .= "$type('$source_url')" . ( ! is_numeric( $format ) ? "format('$format')" : '' );
 
 			if ( $url === $last_src && $end_semi_colon ) {
